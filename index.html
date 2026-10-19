@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F7F8FA" data-theme-color>
+  <meta name="description" content="Nuvora.offstage membantu kreator mengubah keahlian menjadi produk digital dengan strategi yang jelas." data-i18n-content="metaDescription">
+  <title data-i18n="metaTitle">Nuvora.offstage — Produk digital dan strategi</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --blue: #0047E1;
+      --lime: #A1FF00;
+      --soft-white: #F7F8FA;
+      --charcoal: #111315;
+      --cool-gray: #8A9099;
+      --light-gray: #E5E7EB;
+      --bg: var(--soft-white);
+      --bg-alt: rgba(138, 144, 153, 0.10);
+      --fg: var(--charcoal);
+      --muted: #707782;
+      --line: var(--light-gray);
+      --panel: var(--soft-white);
+      --accent: var(--blue);
+      --accent-2: var(--lime);
+      --header-bg: var(--soft-white);
+      --cta-bg: var(--charcoal);
+      --cta-fg: var(--soft-white);
+      --grid-line: rgba(0, 71, 225, 0.10);
+      --shadow: 0 22px 56px rgba(17, 19, 21, 0.10);
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --page-width: 1240px;
+      --page-gutter: clamp(20px, 5vw, 72px);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: var(--charcoal);
+      --bg-alt: rgba(138, 144, 153, 0.12);
+      --fg: var(--soft-white);
+      --muted: #A8ADB5;
+      --line: rgba(138, 144, 153, 0.34);
+      --panel: #171A1D;
+      --accent: var(--lime);
+      --accent-2: var(--blue);
+      --header-bg: var(--charcoal);
+      --cta-bg: var(--blue);
+      --cta-fg: var(--soft-white);
+      --grid-line: rgba(161, 255, 0, 0.13);
+      --shadow: 0 22px 56px rgba(0, 0, 0, 0.30);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body {
+      margin: 0;
+      overflow-x: clip;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    img, svg { display: block; max-width: 100%; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    .container { width: min(var(--page-width), calc(100% - var(--page-gutter) * 2)); margin-inline: auto; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: fixed; z-index: 300; top: 12px; left: 12px; padding: 10px 14px;
+      transform: translateY(-160%); background: var(--lime); color: var(--charcoal); font-weight: 750;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    /* Navigation */
+    .site-header {
+      position: sticky; z-index: 100; top: 0;
+      background: var(--header-bg); border-bottom: 1px solid var(--line);
+      transition: background-color 180ms ease, border-color 180ms ease;
+    }
+    .nav-shell {
+      position: relative; display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; min-height: 92px;
+    }
+    .brand-link {
+      display: inline-flex; align-items: center; flex: 0 0 auto; border-radius: 2px;
+    }
+    .brand-wordmark {
+      color: var(--fg); font-size: 20px; font-weight: 820; line-height: 1;
+      letter-spacing: -0.065em; white-space: nowrap; transition: color 160ms ease;
+    }
+    .brand-link:hover .brand-wordmark { color: var(--accent); }
+    .desktop-nav { display: flex; align-items: center; gap: clamp(20px, 3vw, 42px); margin-left: auto; }
+    .nav-link {
+      position: relative; padding: 10px 0; color: var(--muted); font-size: 13px; font-weight: 650;
+      transition: color 160ms ease;
+    }
+    .nav-link::after {
+      position: absolute; right: 0; bottom: 4px; left: 0; height: 1px;
+      background: var(--accent); content: ""; transform: scaleX(0); transform-origin: left;
+      transition: transform 200ms var(--ease);
+    }
+    .nav-link:hover, .nav-link[aria-current="location"] { color: var(--fg); }
+    .nav-link:hover::after, .nav-link[aria-current="location"]::after { transform: scaleX(1); }
+    .nav-tools { display: flex; align-items: center; gap: 10px; }
+    .language-toggle {
+      display: inline-flex; align-items: center; padding: 3px; gap: 2px;
+      border: 1px solid var(--line); border-radius: 2px;
+    }
+    .language-toggle button {
+      min-width: 37px; min-height: 36px; padding: 6px 8px; border: 0; background: transparent;
+      color: var(--muted); cursor: pointer; font: 700 11px/1 var(--mono); transition: background-color 160ms ease, color 160ms ease;
+    }
+    .language-toggle button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+    .theme-toggle {
+      display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 11px;
+      border: 1px solid var(--line); border-radius: 2px; background: transparent; cursor: pointer;
+      font-size: 11px; font-weight: 700; transition: background-color 160ms ease, border-color 160ms ease;
+    }
+    .theme-toggle:hover { background: var(--bg-alt); }
+    .theme-toggle svg { width: 16px; height: 16px; color: var(--accent); }
+    .theme-toggle .moon-icon { display: none; }
+    html[data-theme="dark"] .theme-toggle .sun-icon { display: none; }
+    html[data-theme="dark"] .theme-toggle .moon-icon { display: block; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      min-height: 50px; padding: 13px 19px; border: 1px solid transparent; border-radius: 2px;
+      font-size: 12px; font-weight: 750; line-height: 1.25; transition: transform 180ms var(--ease), background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--accent); color: var(--bg); }
+    .button-primary:hover { background: var(--fg); color: var(--bg); }
+    .nav-cta { min-height: 44px; padding: 11px 14px; background: var(--blue); color: var(--soft-white); white-space: nowrap; }
+    html[data-theme="dark"] .nav-cta { background: var(--lime); color: var(--charcoal); }
+    .button-arrow { width: 14px; height: 14px; flex: 0 0 auto; }
+    .menu-toggle { display: none; width: 44px; height: 44px; padding: 11px; border: 1px solid var(--line); border-radius: 2px; background: transparent; cursor: pointer; }
+    .menu-icon { display: block; width: 18px; height: 22px; margin: auto; }
+    .menu-icon i { display: block; width: 18px; height: 1px; margin: 6px 0; background: currentColor; transition: transform 180ms ease; }
+    .menu-toggle[aria-expanded="true"] .menu-icon i:first-child { transform: translateY(3.5px) rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] .menu-icon i:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+    .mobile-menu { display: none; }
+
+    /* Editorial hero */
+    .hero { padding: clamp(64px, 9vw, 118px) 0 clamp(72px, 10vw, 132px); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr); align-items: center; gap: clamp(36px, 5vw, 72px); }
+    .hero-copy { min-width: 0; }
+    .eyebrow, .section-label, .micro-label, .group-label, .caption, .scope-note, .stage-index, .principle-number {
+      font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.12em;
+    }
+    .eyebrow { display: flex; align-items: center; gap: 11px; margin: 0 0 22px; color: var(--muted); font-size: 10px; font-weight: 650; }
+    .eyebrow::before { width: 8px; height: 8px; background: var(--lime); content: ""; }
+    .hero h1 {
+      max-width: 760px; margin: 0; font-size: clamp(3.25rem, 5.8vw, 5rem);
+      font-weight: 770; letter-spacing: -0.078em; line-height: 0.96;
+    }
+    .hero h1 span { display: block; }
+    .hero h1 .headline-accent { color: var(--accent); }
+    .hero-support { max-width: 530px; margin: 28px 0 0; color: var(--muted); font-size: clamp(15px, 1.4vw, 18px); line-height: 1.75; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px; }
+    .button-secondary { border-color: var(--line); background: transparent; color: var(--fg); }
+    .button-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-message { margin: 32px 0 0; padding-left: 15px; border-left: 2px solid var(--lime); color: var(--fg); font-size: 13px; font-weight: 650; line-height: 1.5; }
+    .hero-message span { display: block; }
+    .hero-message span:last-child { color: var(--accent); }
+    .hero-figure { min-width: 0; margin: 0; }
+    .hero-art {
+      position: relative; min-height: 480px; overflow: hidden; border: 1px solid var(--line);
+      background-color: var(--panel); background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 34px 34px; box-shadow: var(--shadow);
+    }
+    .hero-art::before { position: absolute; inset: 0; background: linear-gradient(135deg, transparent 50%, rgba(0, 71, 225, 0.04)); content: ""; pointer-events: none; }
+    html[data-theme="dark"] .hero-art::before { background: linear-gradient(135deg, transparent 50%, rgba(161, 255, 0, 0.04)); }
+    .art-topline { position: absolute; top: 20px; right: 20px; left: 20px; display: flex; justify-content: space-between; color: var(--muted); font: 9px/1.3 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+    .source-chip {
+      position: absolute; top: 25%; left: 8%; width: 37%; min-height: 142px; padding: 17px;
+      border: 1px solid var(--line); background: var(--bg); box-shadow: 0 12px 28px rgba(17, 19, 21, 0.08);
+    }
+    .source-chip .micro-label { margin: 0 0 16px; color: var(--muted); font-size: 8px; }
+    .source-chip strong { display: block; max-width: 160px; font-size: clamp(16px, 2vw, 23px); letter-spacing: -0.05em; line-height: 1.12; }
+    .source-chip .source-mark { display: flex; gap: 4px; margin-top: 20px; }
+    .source-mark i { display: block; width: 17px; height: 4px; background: var(--accent); }
+    .source-mark i:nth-child(2) { width: 9px; background: var(--lime); }
+    .source-mark i:nth-child(3) { width: 5px; background: var(--line); }
+    .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .flow-path { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 4 6; opacity: 0.8; }
+    .flow-node { fill: var(--lime); stroke: var(--bg); stroke-width: 3; }
+    .product-sheet {
+      position: absolute; top: 22%; right: 6%; width: 43%; min-height: 220px; padding: 19px;
+      border: 1px solid var(--line); background: var(--bg); box-shadow: 0 20px 40px rgba(17, 19, 21, 0.12); transform: rotate(2deg);
+    }
+    .sheet-top { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font: 8px/1.4 var(--mono); letter-spacing: 0.07em; text-transform: uppercase; }
+    .sheet-rule { height: 1px; margin: 13px 0; background: var(--line); }
+    .product-sheet h3 { margin: 12px 0 4px; font-size: clamp(17px, 2vw, 25px); letter-spacing: -0.06em; line-height: 1.02; }
+    .sheet-subtitle { margin: 0; color: var(--muted); font-size: 9px; }
+    .sheet-task { display: flex; align-items: center; gap: 8px; margin-top: 7px; font-size: 9px; }
+    .sheet-task i { width: 7px; height: 7px; background: var(--lime); }
+    .sheet-task:nth-of-type(2) i { background: var(--blue); }
+    .sheet-task:nth-of-type(3) i { background: var(--cool-gray); }
+
+    .hero-figure figcaption { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; color: var(--muted); font: 9px/1.45 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* Shared section rhythm */
+    .section { padding: clamp(78px, 10vw, 138px) 0; border-top: 1px solid var(--line); }
+    .section-alt { background: var(--bg-alt); }
+    .section-label { display: flex; align-items: center; gap: 12px; margin: 0; color: var(--accent); font-size: 10px; font-weight: 700; }
+    .section-label::after { width: clamp(38px, 9vw, 120px); height: 1px; background: var(--line); content: ""; }
+    .section-intro { display: grid; grid-template-columns: 1fr 0.55fr; align-items: end; gap: 40px; margin-bottom: clamp(42px, 6vw, 76px); }
+    .section-heading { max-width: 820px; margin: 20px 0 0; font-size: clamp(2.5rem, 6vw, 5.8rem); font-weight: 730; letter-spacing: -0.075em; line-height: 0.99; }
+    .section-heading em { color: var(--accent); font-style: normal; }
+    .section-description { max-width: 420px; margin: 0 0 4px; color: var(--muted); font-size: 15px; line-height: 1.8; }
+
+    /* What we do: two service systems */
+    .groups-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr); gap: clamp(24px, 4vw, 54px); align-items: start; }
+    .service-group { min-width: 0; padding-top: 22px; border-top: 2px solid var(--fg); }
+    .group-heading { display: grid; grid-template-columns: 42px 1fr; gap: 16px; align-items: start; margin-bottom: 24px; }
+    .group-number { display: grid; width: 36px; height: 36px; place-items: center; background: var(--accent); color: var(--bg); font: 700 11px/1 var(--mono); }
+    .group-label { margin: 0 0 4px; color: var(--muted); font-size: 9px; }
+    .group-heading h3 { margin: 0; font-size: clamp(1.45rem, 2.4vw, 2.15rem); font-weight: 700; letter-spacing: -0.055em; line-height: 1.1; }
+    .group-intro { max-width: 500px; margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .mockup-board { position: relative; min-height: 274px; margin: 30px 0 25px; padding: 18px; overflow: hidden; border: 1px solid var(--line); background: var(--bg); }
+    .mockup-board::before { position: absolute; top: -70px; right: -60px; width: 210px; height: 210px; border: 1px solid var(--grid-line); border-radius: 50%; content: ""; }
+    .mockup-board::after { position: absolute; top: -32px; right: -22px; width: 130px; height: 130px; border: 1px solid var(--grid-line); border-radius: 50%; content: ""; }
+    .mockup-caption { position: relative; z-index: 1; margin: 0 0 14px; color: var(--muted); font: 8px/1.3 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; }
+    .mockup-pages { position: relative; z-index: 1; display: grid; grid-template-columns: 1.02fr 0.9fr 0.84fr; align-items: center; gap: 10px; }
+    .mock-page { min-height: 190px; padding: 12px 10px; border: 1px solid var(--line); background: var(--panel); box-shadow: 0 9px 22px rgba(17, 19, 21, 0.06); }
+    .mock-page:nth-child(2) { transform: translateY(11px); }
+    .mock-page:nth-child(3) { transform: translateY(-6px); }
+    .mock-page .micro-label { margin: 0 0 10px; color: var(--accent); font-size: 7px; letter-spacing: 0.08em; }
+    .mock-page h4 { margin: 0 0 8px; font-size: 14px; letter-spacing: -0.04em; line-height: 1.12; }
+    .mock-page p { margin: 0; color: var(--muted); font-size: 8px; line-height: 1.5; }
+    .mock-list { display: grid; gap: 7px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .mock-list li { display: flex; justify-content: space-between; gap: 6px; padding-bottom: 5px; border-bottom: 1px solid var(--line); color: var(--muted); font: 7px/1.35 var(--mono); }
+    .mock-list b { color: var(--fg); font-weight: 650; }
+    .mini-bars { display: flex; align-items: end; gap: 5px; height: 45px; margin-top: 16px; border-bottom: 1px solid var(--line); }
+    .mini-bars i { display: block; flex: 1; height: 45%; background: var(--blue); }
+    .mini-bars i:nth-child(2) { height: 74%; background: var(--lime); }
+    .mini-bars i:nth-child(3) { height: 56%; background: var(--cool-gray); }
+    .mini-bars i:nth-child(4) { height: 90%; background: var(--blue); }
+    .service-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 22px; }
+    .service-item { display: grid; grid-template-columns: 27px minmax(0, 1fr); gap: 9px; padding: 15px 0; border-top: 1px solid var(--line); }
+    .service-item:nth-child(odd):last-child { grid-column: 1 / -1; }
+    .service-number { padding-top: 2px; color: var(--accent); font: 10px/1.4 var(--mono); }
+    .service-item h4 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; }
+    .service-item p { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .strategy-diagram { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 30px 0 25px; border: 1px solid var(--line); background: var(--bg); }
+    .strategy-node { position: relative; min-height: 112px; padding: 13px 10px; border-right: 1px solid var(--line); }
+    .strategy-node:last-child { border-right: 0; }
+    .strategy-node::after { position: absolute; top: 50%; right: -4px; width: 7px; height: 7px; background: var(--lime); content: ""; transform: translateY(-50%); }
+    .strategy-node:last-child::after { display: none; }
+    .strategy-node span { display: block; margin-bottom: 18px; color: var(--accent); font: 8px/1.2 var(--mono); }
+    .strategy-node b { display: block; font-size: 10px; line-height: 1.35; }
+    .strategy-group .service-list { grid-template-columns: 1fr; }
+    .strategy-group .service-item { grid-template-columns: 31px 1fr; }
+    .service-conclusion { display: flex; align-items: baseline; gap: 11px; margin: 22px 0 0; padding: 15px 0 0; border-top: 1px solid var(--line); font-size: 13px; font-weight: 700; }
+    .service-conclusion::before { width: 8px; height: 8px; flex: 0 0 auto; background: var(--lime); content: ""; }
+    .scope-note { display: flex; align-items: flex-start; gap: 12px; margin: 34px 0 0; padding: 17px 0 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; line-height: 1.65; letter-spacing: 0.05em; }
+    .scope-note::before { width: 7px; height: 7px; flex: 0 0 auto; margin-top: 4px; background: var(--accent); content: ""; }
+
+    /* How we work: connected sequence */
+    .process-section { position: relative; }
+    .process-intro { display: grid; grid-template-columns: 1fr 0.55fr; align-items: end; gap: 40px; margin-bottom: 62px; }
+    .process-track { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+    .process-track::before { position: absolute; top: 21px; right: 4%; left: 4%; height: 1px; background: var(--line); content: ""; }
+    .process-step { position: relative; min-width: 0; padding-top: 0; }
+    .process-marker { position: relative; z-index: 1; display: grid; width: 42px; height: 42px; margin-bottom: 25px; place-items: center; border: 1px solid var(--line); background: var(--bg); color: var(--accent); font: 11px/1 var(--mono); transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease; }
+    .process-step:hover .process-marker { border-color: var(--lime); background: var(--lime); color: var(--charcoal); }
+    .stage-index { margin: 0 0 8px; color: var(--muted); font-size: 9px; }
+    .process-step h3 { max-width: 230px; margin: 0; font-size: clamp(1.15rem, 2vw, 1.55rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1.2; }
+    .process-step p:last-child { max-width: 250px; margin: 10px 0 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .process-note { display: flex; gap: 12px; max-width: 820px; margin: 42px 0 0; padding: 14px 16px; border-left: 2px solid var(--lime); background: var(--bg-alt); color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .process-note strong { flex: 0 0 auto; color: var(--fg); font-weight: 700; }
+    .collaboration-block { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: clamp(30px, 7vw, 90px); align-items: start; margin-top: clamp(80px, 11vw, 142px); padding-top: 30px; border-top: 1px solid var(--line); }
+    .collaboration-block h3 { max-width: 500px; margin: 19px 0 14px; font-size: clamp(2rem, 4.3vw, 4rem); font-weight: 720; letter-spacing: -0.07em; line-height: 1.02; }
+    .collaboration-copy { max-width: 470px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .principle-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .principle-item { display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 13px; min-height: 66px; border-bottom: 1px solid var(--line); }
+    .principle-number { color: var(--accent); font-size: 9px; }
+    .principle-item strong { font-size: 12px; font-weight: 750; letter-spacing: 0.02em; }
+    .principle-item span:last-child { color: var(--muted); font-size: 11px; text-align: right; }
+
+    /* Closing CTA and footer */
+    .closing-cta { padding: clamp(72px, 10vw, 124px) 0; background: var(--cta-bg); color: var(--cta-fg); transition: background-color 180ms ease, color 180ms ease; }
+    .cta-grid { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 42px; }
+    .cta-eyebrow { margin: 0 0 18px; color: var(--lime); font: 10px/1.4 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; }
+    .closing-cta h2 { max-width: 850px; margin: 0; font-size: clamp(2.8rem, 7vw, 6.5rem); font-weight: 760; letter-spacing: -0.078em; line-height: 0.96; }
+    .closing-cta h2 em { color: var(--lime); font-style: normal; }
+    .cta-copy { max-width: 530px; margin: 22px 0 0; color: rgba(247, 248, 250, 0.74); font-size: 15px; line-height: 1.75; }
+    .cta-actions { display: flex; flex-direction: column; align-items: stretch; gap: 10px; min-width: 205px; }
+    .cta-actions .button-primary { background: var(--lime); color: var(--charcoal); }
+    .cta-actions .button-primary:hover { background: var(--soft-white); color: var(--charcoal); }
+    .cta-actions .button-secondary { border-color: rgba(247, 248, 250, 0.34); color: var(--soft-white); }
+    .cta-actions .button-secondary:hover { border-color: var(--lime); color: var(--lime); }
+    .site-footer { padding: 28px 0 34px; border-top: 1px solid var(--line); background: var(--bg); }
+    .footer-grid { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 36px; }
+    .footer-brand { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -0.035em; }
+    .footer-statement { max-width: 360px; margin: 4px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 18px; }
+    .footer-nav a { color: var(--muted); font-size: 11px; transition: color 160ms ease; }
+    .footer-nav a:hover { color: var(--accent); }
+    .footer-copy { margin: 0; color: var(--muted); font: 9px/1.4 var(--mono); text-align: right; }
+
+    /* Purposeful motion, with a visible-content fallback */
+    @keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-copy > * { animation: rise-in 650ms var(--ease) both; }
+      .hero-copy > *:nth-child(2) { animation-delay: 70ms; }
+      .hero-copy > *:nth-child(3) { animation-delay: 130ms; }
+      .hero-copy > *:nth-child(4) { animation-delay: 190ms; }
+      .hero-figure { animation: rise-in 760ms var(--ease) 140ms both; }
+    }
+    html.motion-ready [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity 520ms var(--ease), transform 520ms var(--ease); }
+    html.motion-ready [data-reveal].is-visible { opacity: 1; transform: none; }
+    html.motion-ready [data-reveal][data-delay="1"] { transition-delay: 70ms; }
+    html.motion-ready [data-reveal][data-delay="2"] { transition-delay: 140ms; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+      html.motion-ready [data-reveal] { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 1040px) {
+      .nav-shell { gap: 14px; }
+      .desktop-nav { gap: 20px; }
+      .nav-tools { gap: 7px; }
+      .theme-toggle { padding-inline: 9px; }
+      .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr); gap: 34px; }
+      .hero h1 { font-size: clamp(3rem, 5.8vw, 4.6rem); }
+      .groups-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 28px; }
+      .service-list { column-gap: 14px; }
+    }
+    @media (max-width: 860px) {
+      .nav-shell { min-height: 78px; }
+      .desktop-nav, .nav-cta { display: none; }
+      .menu-toggle { display: block; }
+      .mobile-menu:not([hidden]) {
+        position: absolute; top: calc(100% + 1px); right: 0; left: 0; display: grid; gap: 0;
+        padding: 8px 18px 18px; border: 1px solid var(--line); border-top: 0; background: var(--bg); box-shadow: var(--shadow);
+      }
+      .mobile-menu a { display: flex; align-items: center; justify-content: space-between; min-height: 48px; border-bottom: 1px solid var(--line); color: var(--fg); font-size: 13px; font-weight: 650; }
+      .mobile-menu a:last-child { justify-content: center; margin-top: 14px; border: 0; background: var(--blue); color: var(--soft-white); }
+      html[data-theme="dark"] .mobile-menu a:last-child { background: var(--lime); color: var(--charcoal); }
+      .hero-grid { grid-template-columns: 1fr; gap: 46px; }
+      .hero-copy { max-width: 760px; }
+      .hero h1 { max-width: 820px; font-size: clamp(3.4rem, 9vw, 6.5rem); }
+      .hero-figure { width: min(100%, 680px); margin-left: auto; }
+      .hero-art { min-height: 440px; }
+      .section-intro, .process-intro { grid-template-columns: 1fr 0.7fr; }
+      .groups-grid { grid-template-columns: 1fr; gap: 55px; }
+      .product-group .service-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .strategy-group .service-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 22px; }
+      .strategy-group .service-item:nth-child(odd):last-child { grid-column: auto; }
+      .cta-grid { grid-template-columns: 1fr; align-items: start; }
+      .cta-actions { flex-direction: row; align-items: center; min-width: 0; }
+      .footer-grid { grid-template-columns: 1fr auto; }
+      .footer-copy { grid-column: 1 / -1; text-align: left; }
+    }
+    @media (max-width: 600px) {
+      :root { --page-gutter: 22px; }
+      .nav-shell { min-height: 72px; gap: 8px; }
+      .brand-wordmark { font-size: 17px; }
+      .nav-tools { gap: 6px; }
+      .language-toggle { padding: 2px; }
+      .language-toggle button { min-width: 32px; min-height: 36px; padding-inline: 5px; font-size: 10px; }
+      .theme-toggle { width: 42px; min-width: 42px; min-height: 42px; justify-content: center; padding: 0; }
+      .theme-toggle .theme-label { display: none; }
+      .menu-toggle { width: 42px; height: 42px; padding: 10px; }
+      .hero { padding: 63px 0 82px; }
+      .hero-grid { gap: 36px; }
+      .eyebrow { margin-bottom: 20px; font-size: 9px; }
+      .hero h1 { font-size: clamp(3rem, 13.2vw, 4.8rem); line-height: 0.99; letter-spacing: -0.075em; }
+      .hero-support { margin-top: 22px; font-size: 15px; }
+      .hero-actions { align-items: stretch; gap: 9px; margin-top: 22px; }
+      .hero-actions .button { min-height: 48px; padding: 12px 13px; font-size: 11px; }
+      .hero-message { margin-top: 25px; font-size: 12px; }
+      .hero-art { min-height: 420px; background-size: 28px 28px; }
+      .art-topline { top: 14px; right: 13px; left: 13px; font-size: 7px; }
+      .source-chip { top: 27%; left: 6%; width: 40%; min-height: 122px; padding: 13px; }
+      .source-chip .micro-label { margin-bottom: 12px; font-size: 7px; }
+      .source-chip strong { font-size: 16px; }
+      .source-chip .source-mark { margin-top: 15px; }
+      .product-sheet { top: 22%; right: 5%; width: 46%; min-height: 193px; padding: 14px; }
+      .sheet-top { font-size: 7px; }
+      .sheet-rule { margin: 10px 0; }
+      .product-sheet h3 { margin-top: 13px; font-size: 18px; }
+      .sheet-subtitle, .sheet-task { font-size: 8px; }
+
+      .hero-figure figcaption { font-size: 7px; }
+      .section { padding: 78px 0; }
+      .section-intro, .process-intro { grid-template-columns: 1fr; gap: 18px; margin-bottom: 40px; }
+      .section-heading { margin-top: 17px; font-size: clamp(2.45rem, 11vw, 4.2rem); }
+      .section-description { font-size: 14px; }
+      .group-heading { grid-template-columns: 34px 1fr; gap: 12px; }
+      .group-number { width: 30px; height: 30px; font-size: 10px; }
+      .mockup-board { min-height: 245px; padding: 13px; }
+      .mockup-pages { gap: 7px; }
+      .mock-page { min-height: 172px; padding: 10px 8px; }
+      .mock-page h4 { font-size: 12px; }
+      .mock-page p, .mock-list li { font-size: 7px; }
+      .service-list, .strategy-group .service-list { grid-template-columns: 1fr; }
+      .service-item { padding: 14px 0; }
+      .service-item h4 { font-size: 13px; }
+      .service-item p { font-size: 12px; }
+      .strategy-diagram { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .strategy-node { min-height: 88px; padding: 11px; border-bottom: 1px solid var(--line); }
+      .strategy-node:nth-child(2) { border-right: 0; }
+      .strategy-node:nth-child(3), .strategy-node:nth-child(4) { border-bottom: 0; }
+      .strategy-node:nth-child(2)::after { display: none; }
+      .strategy-node span { margin-bottom: 10px; }
+      .scope-note { margin-top: 28px; font-size: 10px; }
+      .process-track { grid-template-columns: 1fr; gap: 0; padding-left: 2px; }
+      .process-track::before { top: 15px; right: auto; bottom: 24px; left: 20px; width: 1px; height: auto; }
+      .process-step { display: grid; grid-template-columns: 42px 1fr; column-gap: 18px; padding-bottom: 30px; }
+      .process-marker { grid-row: span 3; margin: 0; }
+      .stage-index { align-self: end; margin-bottom: 4px; }
+      .process-step h3 { max-width: none; }
+      .process-step p:last-child { max-width: none; margin-top: 7px; }
+      .process-note { display: block; margin-top: 24px; font-size: 11px; }
+      .process-note strong { display: block; margin-bottom: 5px; }
+      .collaboration-block { grid-template-columns: 1fr; gap: 30px; margin-top: 80px; }
+      .collaboration-block h3 { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+      .principle-item { grid-template-columns: 32px 1fr; gap: 10px; min-height: 62px; }
+      .principle-item span:last-child { grid-column: 2; margin-top: -15px; padding-bottom: 10px; text-align: left; }
+      .closing-cta { padding: 78px 0; }
+      .closing-cta h2 { font-size: clamp(2.75rem, 12vw, 4.8rem); line-height: 0.99; }
+      .cta-copy { font-size: 14px; }
+      .cta-actions { flex-direction: column; align-items: stretch; }
+      .cta-actions .button { width: 100%; }
+      .footer-grid { grid-template-columns: 1fr; gap: 18px; }
+      .footer-nav { gap: 15px; }
+      .footer-copy { grid-column: auto; }
+    }
+    @media (max-width: 380px) {
+      :root { --page-gutter: 18px; }
+      .nav-shell { gap: 6px; }
+      .brand-wordmark { font-size: 14px; letter-spacing: -0.06em; }
+      .nav-tools { gap: 4px; }
+      .hero h1 { font-size: clamp(2.75rem, 12.8vw, 3.5rem); }
+      .closing-cta h2 { font-size: clamp(2.25rem, 11vw, 2.75rem); }
+      .hero-actions .button { flex: 1 1 100%; }
+      .hero-art { min-height: 420px; }
+      .source-chip { min-height: 114px; }
+      .product-sheet { min-height: 180px; }
+      .sheet-task { gap: 5px; }
+    }
+  </style>
+  <noscript>
+    <style>
+      @media (max-width: 860px) {
+        .menu-toggle { display: none !important; }
+        .mobile-menu[hidden] { position: static !important; display: grid !important; padding: 8px 0 !important; border: 0 !important; box-shadow: none !important; }
+      }
+    </style>
+  </noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Lewati ke konten</a>
+  <header class="site-header" id="top">
+    <div class="container nav-shell">
+      <a class="brand-link" href="#top" data-i18n-aria="logoHome" aria-label="Nuvora.offstage — kembali ke atas">
+        <span class="brand-wordmark" aria-hidden="true">Nuvora.offstage</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Navigasi utama" data-i18n-aria="navPrimary">
+        <a class="nav-link" href="#what-we-do" data-nav-section="what-we-do" data-i18n="navWhat">Apa yang Kami Kerjakan</a>
+        <a class="nav-link" href="#how-we-work" data-nav-section="how-we-work" data-i18n="navHow">Cara Kami Bekerja</a>
+      </nav>
+      <div class="nav-tools">
+        <div class="language-toggle" role="group" aria-label="Pilihan bahasa" data-i18n-aria="languageGroup">
+          <button type="button" data-set-language="id" aria-pressed="true">ID</button>
+          <button type="button" data-set-language="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Beralih ke mode gelap">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56m11.02 11.02 1.56 1.56M2 12h2.2m15.6 0H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.2 15.3A8.3 8.3 0 0 1 8.7 3.8 8.4 8.4 0 1 0 20.2 15.3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          <span class="theme-label" data-theme-label>Terang</span>
+        </button>
+        <a class="button nav-cta" href="https://wa.me/6285196322176" target="_blank" rel="noopener noreferrer" data-whatsapp><span data-i18n="navCta">Mulai Kolaborasi</span><span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false" data-menu-toggle aria-label="Buka navigasi">
+          <span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
+          <span class="sr-only" data-menu-label>Buka navigasi</span>
+        </button>
+      </div>
+      <nav class="mobile-menu" id="mobile-menu" aria-label="Navigasi seluler" data-i18n-aria="navMobile" hidden>
+        <a href="#what-we-do" data-nav-section="what-we-do" data-i18n="navWhat">Apa yang Kami Kerjakan</a>
+        <a href="#how-we-work" data-nav-section="how-we-work" data-i18n="navHow">Cara Kami Bekerja</a>
+        <a href="#contact" data-i18n="navCta">Mulai Kolaborasi</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="heroEyebrow">NUVORA.OFFSTAGE · MITRA PRODUK DIGITAL</p>
+          <h1 id="hero-title"><span data-i18n="heroLine1">Ubah keahlianmu</span><span class="headline-accent" data-i18n="heroLine2">menjadi produk digital.</span></h1>
+          <p class="hero-support" data-i18n="heroSupport">Kami membantu kreator mengubah keahlian dan ide menjadi produk digital yang dirancang dengan tujuan, didukung strategi pemasaran, dan disiapkan untuk dimonetisasi.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#what-we-do"><span data-i18n="heroExplore">Jelajahi Layanan</span><svg class="button-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="button button-secondary" href="#how-we-work"><span data-i18n="heroProcess">Lihat Cara Kerja</span></a>
+          </div>
+          <p class="hero-message"><span data-i18n="brandMessage1">Kamu membangun audiensnya.</span><span data-i18n="brandMessage2">Kami membangun produk yang mereka beli.</span></p>
+        </div>
+
+        <figure class="hero-figure" aria-labelledby="hero-figure-caption">
+          <div class="hero-art">
+            <div class="art-topline"><span data-i18n="artTopLeft">DARI KEAHLIAN</span><span>FIG. 01</span></div>
+            <div class="source-chip">
+              <p class="micro-label" data-i18n="artSourceLabel">SUMBER / KEAHLIAN</p>
+              <strong data-i18n="artSourceTitle">Sudut pandang yang bernilai.</strong>
+              <span class="source-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <svg class="flow-svg" viewBox="0 0 600 440" preserveAspectRatio="none" aria-hidden="true"><path class="flow-path" d="M216 228 C285 228 292 118 372 118 S443 230 476 230"/><circle class="flow-node" cx="288" cy="188" r="6"/><circle class="flow-node" cx="372" cy="118" r="6"/><circle class="flow-node" cx="436" cy="174" r="6"/></svg>
+            <div class="product-sheet">
+              <div class="sheet-top"><span data-i18n="artProductLabel">PRODUK DIGITAL</span><span>01 / 03</span></div>
+              <div class="sheet-rule"></div>
+              <p class="micro-label" data-i18n="artCardOverline">DIRANCANG DENGAN ARAH</p>
+              <h3 data-i18n="artCardTitle">Creator<br>Field Guide</h3>
+              <p class="sheet-subtitle" data-i18n="artCardSubtitle">Dari pengetahuan ke langkah nyata.</p>
+              <div class="sheet-task"><i aria-hidden="true"></i><span data-i18n="artTask1">Pahami kebutuhan</span></div>
+              <div class="sheet-task"><i aria-hidden="true"></i><span data-i18n="artTask2">Rencanakan tindakan</span></div>
+              <div class="sheet-task"><i aria-hidden="true"></i><span data-i18n="artTask3">Bangun konsistensi</span></div>
+            </div>
+          </div>
+          <figcaption id="hero-figure-caption"><span data-i18n="heroFigureCaption">Contoh ilustratif · bukan proyek klien</span><span data-i18n="heroFigureIndex">STRATEGI / BENTUK / SISTEM</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="what-we-do" aria-labelledby="what-title">
+      <div class="container">
+        <div class="section-intro" data-reveal>
+          <div>
+            <p class="section-label"><span>01 /</span><span data-i18n="whatLabel">APA YANG KAMI KERJAKAN</span></p>
+            <h2 class="section-heading" id="what-title"><span data-i18n="whatHeading1">Rancang produk digital.</span><br><em data-i18n="whatHeading2">Siapkan strategi pemasaran.</em></h2>
+          </div>
+          <p class="section-description" data-i18n="whatDescription">Dari ide awal hingga strategi pemasaran, kami membantu kreator mengembangkan produk digital yang relevan, fungsional, dan selaras dengan audiensnya.</p>
+        </div>
+
+        <div class="groups-grid">
+          <section class="service-group product-group" aria-labelledby="products-title">
+            <div class="group-heading" data-reveal>
+              <span class="group-number">01</span>
+              <div><p class="group-label" data-i18n="productGroupLabel">KELOMPOK 01</p><h3 id="products-title" data-i18n="productGroupTitle">Produk Digital</h3><p class="group-intro" data-i18n="productGroupIntro">Produk digital yang dirancang untuk membantu audiens belajar, merencanakan, mengelola, dan bertindak.</p></div>
+            </div>
+            <figure class="mockup-board" data-reveal>
+              <figcaption class="mockup-caption" data-i18n="mockupCaption">CONTOH TATA LETAK · ILUSTRATIF</figcaption>
+              <div class="mockup-pages">
+                <article class="mock-page">
+                  <p class="micro-label" data-i18n="mockBookLabel">E-BOOK / DAFTAR ISI</p>
+                  <h4 data-i18n="mockBookTitle">Creator<br>Field Guide</h4>
+                  <p data-i18n="mockBookNote">Navigasi isi yang jelas dan mudah diikuti.</p>
+                  <ul class="mock-list"><li><span>01</span><b data-i18n="mockBookItem1">Mulai di sini</b></li><li><span>02</span><b data-i18n="mockBookItem2">Tentukan arah</b></li><li><span>03</span><b data-i18n="mockBookItem3">Susun langkah</b></li></ul>
+                </article>
+                <article class="mock-page">
+                  <p class="micro-label" data-i18n="mockPlannerLabel">PLANNER / MINGGUAN</p>
+                  <h4 data-i18n="mockPlannerTitle">Fokus<br>minggu ini</h4>
+                  <ul class="mock-list"><li><span>01</span><b data-i18n="mockPlannerItem1">Riset audiens</b></li><li><span>02</span><b data-i18n="mockPlannerItem2">Tulis ide</b></li><li><span>03</span><b data-i18n="mockPlannerItem3">Tinjau progres</b></li></ul>
+                </article>
+                <article class="mock-page">
+                  <p class="micro-label" data-i18n="mockSheetLabel">TRACKER / BULANAN</p>
+                  <h4 data-i18n="mockSheetTitle">Target<br>konten</h4>
+                  <p data-i18n="mockSheetNote">Rencanakan. Catat. Evaluasi.</p>
+                  <div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                </article>
+              </div>
+            </figure>
+            <div class="service-list" aria-label="Layanan produk digital" data-i18n-aria="productServicesLabel">
+              <article class="service-item" data-reveal><span class="service-number">01</span><div><h4 data-i18n="product1Title">E-book Interaktif</h4><p data-i18n="product1Desc">E-book dengan navigasi klik, tautan internal, dan susunan materi yang mudah digunakan.</p></div></article>
+              <article class="service-item" data-reveal data-delay="1"><span class="service-number">02</span><div><h4 data-i18n="product2Title">Planner Digital</h4><p data-i18n="product2Desc">Planner untuk mengatur tujuan, rutinitas, kebiasaan, jadwal, dan produktivitas.</p></div></article>
+              <article class="service-item" data-reveal><span class="service-number">03</span><div><h4 data-i18n="product3Title">Spreadsheet & Tracker</h4><p data-i18n="product3Desc">Template pelacak anggaran, pengeluaran, tabungan, dan pencapaian target.</p></div></article>
+              <article class="service-item" data-reveal data-delay="1"><span class="service-number">04</span><div><h4 data-i18n="product4Title">Worksheet & Workbook</h4><p data-i18n="product4Desc">Lembar kerja untuk latihan, refleksi, perencanaan, dan penerapan materi.</p></div></article>
+              <article class="service-item" data-reveal><span class="service-number">05</span><div><h4 data-i18n="product5Title">Template & Toolkit Digital</h4><p data-i18n="product5Desc">Template untuk perencanaan konten, pengelolaan ide, riset, dan alur kerja kreator.</p></div></article>
+              <article class="service-item" data-reveal data-delay="1"><span class="service-number">06</span><div><h4 data-i18n="product6Title">Panduan & Resource Kit</h4><p data-i18n="product6Desc">Panduan, checklist, sumber terkurasi, dan toolkit untuk kebutuhan tertentu.</p></div></article>
+              <article class="service-item" data-reveal><span class="service-number">07</span><div><h4 data-i18n="product7Title">Presentasi & Media Kit</h4><p data-i18n="product7Desc">Presentasi edukatif, media kit, pitch deck, dan materi visual profesional.</p></div></article>
+              <article class="service-item" data-reveal data-delay="1"><span class="service-number">08</span><div><h4 data-i18n="product8Title">Printables & Worksheet Digital</h4><p data-i18n="product8Desc">Planner cetak, checklist, lembar aktivitas, dan materi siap digunakan atau dicetak.</p></div></article>
+            </div>
+          </section>
+
+          <section class="service-group strategy-group" aria-labelledby="strategy-title">
+            <div class="group-heading" data-reveal>
+              <span class="group-number">02</span>
+              <div><p class="group-label" data-i18n="strategyGroupLabel">KELOMPOK 02</p><h3 id="strategy-title" data-i18n="strategyGroupTitle">Strategi & Pertumbuhan</h3><p class="group-intro" data-i18n="strategyGroupIntro">Kami membantu memberi arah, pesan yang jelas, dan strategi pemasaran yang terencana.</p></div>
+            </div>
+            <div class="strategy-diagram" role="img" aria-label="Alur dari peluang menuju promosi" data-i18n-aria="strategyDiagramLabel" data-reveal>
+              <div class="strategy-node"><span>01</span><b data-i18n="strategyNode1">Peluang</b></div><div class="strategy-node"><span>02</span><b data-i18n="strategyNode2">Produk</b></div><div class="strategy-node"><span>03</span><b data-i18n="strategyNode3">Pesan</b></div><div class="strategy-node"><span>04</span><b data-i18n="strategyNode4">Promosi</b></div>
+            </div>
+            <div class="service-list">
+              <article class="service-item" data-reveal><span class="service-number">01</span><div><h4 data-i18n="strategy1Title">Peluang Produk</h4><p data-i18n="strategy1Desc">Mengidentifikasi peluang dari keahlian kreator, niche, kebutuhan audiens, dan potensi manfaat.</p></div></article>
+              <article class="service-item" data-reveal data-delay="1"><span class="service-number">02</span><div><h4 data-i18n="strategy2Title">Strategi Produk</h4><p data-i18n="strategy2Desc">Menentukan konsep, struktur, format, positioning, dan nilai utama produk.</p></div></article>
+              <article class="service-item" data-reveal><span class="service-number">03</span><div><h4 data-i18n="strategy3Title">Strategi Marketing & Konten</h4><p data-i18n="strategy3Desc">Menyusun ide konten, pesan pemasaran, sudut komunikasi, dan rencana promosi yang relevan.</p></div></article>
+              <article class="service-item" data-reveal data-delay="1"><span class="service-number">04</span><div><h4 data-i18n="strategy4Title">Pesan Penjualan & Rencana Peluncuran</h4><p data-i18n="strategy4Desc">Menyusun copy penjualan, penawaran produk, dan rencana peluncuran yang terstruktur.</p></div></article>
+            </div>
+            <p class="service-conclusion" data-i18n="strategyConclusion">Produk yang baik membutuhkan arah yang jelas.</p>
+          </section>
+        </div>
+        <p class="scope-note" data-i18n="scopeNote">Format file—seperti Canva yang dapat diedit, PDF, spreadsheet, atau dokumen cetak—dipilih sesuai kebutuhan dan ruang lingkup yang disepakati. Tidak semua format berlaku untuk setiap proyek. Fokus kami pada produk berbasis dokumen, spreadsheet, dan platform umum; bukan pengembangan software khusus.</p>
+      </div>
+    </section>
+
+    <section class="section section-alt process-section" id="how-we-work" aria-labelledby="process-title">
+      <div class="container">
+        <div class="process-intro" data-reveal>
+          <div>
+            <p class="section-label"><span>02 /</span><span data-i18n="howLabel">CARA KAMI BEKERJA</span></p>
+            <h2 class="section-heading" id="process-title"><span data-i18n="howHeading1">Dari ide menjadi produk.</span><br><em data-i18n="howHeading2">Dari produk menuju pasar.</em></h2>
+          </div>
+          <p class="section-description" data-i18n="howDescription">Proses kolaborasi yang terstruktur, dari memahami peluang hingga menyiapkan produk dan strategi peluncurannya.</p>
+        </div>
+
+        <div class="process-track" aria-label="Empat tahap kolaborasi" data-i18n-aria="processLabel">
+          <article class="process-step" data-reveal><span class="process-marker" aria-hidden="true">01</span><p class="stage-index" data-i18n="stage1Index">TAHAP 01 / TEMUKAN</p><h3 data-i18n="stage1Title">Kenali Peluang</h3><p data-i18n="stage1Desc">Kami memahami niche, keahlian kreator, audiens, dan kebutuhan yang berpotensi menjadi produk.</p></article>
+          <article class="process-step" data-reveal data-delay="1"><span class="process-marker" aria-hidden="true">02</span><p class="stage-index" data-i18n="stage2Index">TAHAP 02 / KEMBANGKAN</p><h3 data-i18n="stage2Title">Kembangkan Produk</h3><p data-i18n="stage2Desc">Kami menyusun konsep, struktur, konten, dan desain produk sesuai tujuan yang disepakati.</p></article>
+          <article class="process-step" data-reveal data-delay="2"><span class="process-marker" aria-hidden="true">03</span><p class="stage-index" data-i18n="stage3Index">TAHAP 03 / STRATEGI</p><h3 data-i18n="stage3Title">Siapkan Strategi</h3><p data-i18n="stage3Desc">Kami merancang positioning, pesan pemasaran, ide konten, dan rencana promosi.</p></article>
+          <article class="process-step" data-reveal><span class="process-marker" aria-hidden="true">04</span><p class="stage-index" data-i18n="stage4Index">TAHAP 04 / PERSIAPAN</p><h3 data-i18n="stage4Title">Siapkan Peluncuran</h3><p data-i18n="stage4Desc">Produk disiapkan untuk dipasarkan. Performa dapat dievaluasi dan strategi disesuaikan berdasarkan data yang tersedia.</p></article>
+        </div>
+        <p class="process-note" data-reveal><strong data-i18n="processNoteLabel">CATATAN KOLABORASI</strong><span data-i18n="processNote">Peran dan tanggung jawab disepakati untuk setiap kemitraan. Pengelolaan semua kanal, iklan berbayar, layanan pelanggan, atau seluruh aktivitas peluncuran tidak otomatis termasuk dalam setiap proyek.</span></p>
+
+        <div class="collaboration-block" data-reveal>
+          <div>
+            <p class="section-label"><span>03 /</span><span data-i18n="collabLabel">PRINSIP KOLABORASI</span></p>
+            <h3 data-i18n="collabHeading">Kolaborasi, bukan sekadar eksekusi.</h3>
+            <p class="collaboration-copy" data-i18n="collabCopy">Setiap proyek dimulai dengan tujuan yang jelas. Ruang lingkup pekerjaan, format produk, tanggung jawab, dan skema kerja disepakati bersama sebelum proses dimulai.</p>
+          </div>
+          <ol class="principle-list">
+            <li class="principle-item"><span class="principle-number">01</span><strong data-i18n="principle1Title">CLEAR SCOPE</strong><span data-i18n="principle1Desc">Ruang lingkup yang jelas</span></li>
+            <li class="principle-item"><span class="principle-number">02</span><strong data-i18n="principle2Title">SHARED DIRECTION</strong><span data-i18n="principle2Desc">Arah yang disepakati bersama</span></li>
+            <li class="principle-item"><span class="principle-number">03</span><strong data-i18n="principle3Title">TRANSPARENT PROCESS</strong><span data-i18n="principle3Desc">Proses yang transparan</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-cta" id="contact" aria-labelledby="contact-title">
+      <div class="container cta-grid">
+        <div data-reveal>
+          <p class="cta-eyebrow" data-i18n="ctaEyebrow">LANGKAH SELANJUTNYA / KOLABORASI</p>
+          <h2 id="contact-title"><span data-i18n="ctaHeading1">Punya ide yang</span> <em data-i18n="ctaHeading2">layak dikembangkan?</em></h2>
+          <p class="cta-copy" data-i18n="ctaCopy">Mari diskusikan bagaimana keahlian dan audiensmu bisa menjadi awal dari produk digital yang bernilai.</p>
+        </div>
+        <div class="cta-actions" data-reveal data-delay="1">
+          <a class="button button-primary" href="https://wa.me/6285196322176" target="_blank" rel="noopener noreferrer" data-whatsapp><span data-i18n="ctaPrimary">Mulai Kolaborasi</span><span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="#top"><span data-i18n="ctaSecondary">Kembali ke Atas</span><span aria-hidden="true">↑</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><p class="footer-brand">Nuvora.offstage</p><p class="footer-statement" data-i18n="footerStatement">Kami bekerja di balik layar untuk membantu kreator mengembangkan produk digital.</p></div>
+      <nav class="footer-nav" aria-label="Navigasi footer" data-i18n-aria="footerNavLabel"><a href="#what-we-do" data-i18n="navWhatShort">Apa yang Kami Kerjakan</a><a href="#how-we-work" data-i18n="navHowShort">Cara Kami Bekerja</a><a href="#top" data-i18n="footerTop">Kembali ke Atas</a></nav>
+      <p class="footer-copy">© 2026 Nuvora.offstage. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const copy = {
+        id: {
+          metaTitle: "Nuvora.offstage — Produk Digital & Strategi Pemasaran",
+          metaDescription: "Nuvora membantu kreator mengubah keahlian menjadi produk digital dan menyiapkan strategi pemasarannya.",
+          skip: "Lewati ke konten", logoHome: "Nuvora.offstage — kembali ke atas", navPrimary: "Navigasi utama", navMobile: "Navigasi seluler", languageGroup: "Pilihan bahasa", footerNavLabel: "Navigasi footer",
+          navWhat: "Apa yang Kami Kerjakan", navWhatShort: "Apa yang Kami Kerjakan", navHow: "Cara Kami Bekerja", navHowShort: "Cara Kami Bekerja", navCta: "Mulai Kolaborasi",
+          themeLight: "Terang", themeDark: "Gelap", themeToDark: "Beralih ke mode gelap", themeToLight: "Beralih ke mode terang", menuOpen: "Buka navigasi", menuClose: "Tutup navigasi",
+          heroEyebrow: "NUVORA.OFFSTAGE · MITRA PRODUK DIGITAL", heroLine1: "Ubah keahlianmu", heroLine2: "menjadi produk digital.",
+          heroSupport: "Nuvora membantu kreator mengubah keahlian menjadi produk digital dan menyiapkan strategi pemasarannya.",
+          heroExplore: "Jelajahi Layanan", heroProcess: "Lihat Cara Kerja", brandMessage1: "Kamu membangun audiensnya.", brandMessage2: "Kami membantu menyiapkan produk yang bisa mereka beli.",
+          artTopLeft: "DARI KEAHLIAN KE PRODUK", artSourceLabel: "KEAHLIAN KREATOR", artSourceTitle: "Keahlian dan pengalaman.", artProductLabel: "CONTOH PRODUK DIGITAL", artCardOverline: "CONTOH STRUKTUR ISI", artCardTitle: "Panduan Kerja Kreator", artCardSubtitle: "Contoh isi: dari keahlian menjadi langkah praktis.", artTask1: "Pahami audiens", artTask2: "Rancang isi", artTask3: "Susun langkah", heroFigureCaption: "Contoh ilustratif · bukan proyek klien", heroFigureIndex: "KEAHLIAN → PRODUK → PROMOSI",
+          whatLabel: "APA YANG KAMI KERJAKAN", whatHeading1: "Rancang produk digital.", whatHeading2: "Siapkan strategi pemasaran.", whatDescription: "Kami membantu memilih format produk, menyusun materinya, dan merancang cara memperkenalkannya kepada audiens.",
+          productGroupLabel: "KELOMPOK 01", productGroupTitle: "Pengembangan Produk Digital", productGroupIntro: "E-book, planner, template, tracker, dan panduan yang disusun sesuai kebutuhan audiens.", productServicesLabel: "Layanan pengembangan produk digital",
+          mockupCaption: "CONTOH TATA LETAK · ILUSTRATIF", mockBookLabel: "E-BOOK / DAFTAR ISI", mockBookTitle: "Panduan Kerja Kreator", mockBookNote: "Contoh e-book dengan langkah kerja yang terstruktur.", mockBookItem1: "Mulai di sini", mockBookItem2: "Tentukan arah", mockBookItem3: "Susun langkah", mockPlannerLabel: "PLANNER / MINGGUAN", mockPlannerTitle: "Fokus minggu ini", mockPlannerItem1: "Riset audiens", mockPlannerItem2: "Tulis ide", mockPlannerItem3: "Tinjau progres", mockSheetLabel: "TRACKER / BULANAN", mockSheetTitle: "Target konten", mockSheetNote: "Rencanakan. Catat. Evaluasi.",
+          product1Title: "E-book Interaktif", product1Desc: "E-book dengan navigasi klik, tautan internal, dan susunan materi yang mudah digunakan.", product2Title: "Planner Digital", product2Desc: "Planner untuk mengatur tujuan, rutinitas, kebiasaan, jadwal, dan produktivitas.", product3Title: "Spreadsheet & Tracker", product3Desc: "Template pelacak anggaran, pengeluaran, tabungan, dan pencapaian target.", product4Title: "Worksheet & Workbook", product4Desc: "Lembar kerja untuk latihan, refleksi, perencanaan, dan penerapan materi.", product5Title: "Template & Toolkit Digital", product5Desc: "Template untuk perencanaan konten, pengelolaan ide, riset, dan alur kerja kreator.", product6Title: "Panduan & Resource Kit", product6Desc: "Panduan, checklist, sumber terkurasi, dan toolkit untuk kebutuhan tertentu.", product7Title: "Presentasi & Media Kit", product7Desc: "Presentasi edukatif, media kit, pitch deck, dan materi visual profesional.", product8Title: "Printables & Worksheet Digital", product8Desc: "Planner cetak, checklist, lembar aktivitas, dan materi siap digunakan atau dicetak.",
+          strategyGroupLabel: "KELOMPOK 02", strategyGroupTitle: "Strategi Pemasaran", strategyGroupIntro: "Kami menyusun pesan, konten, dan rencana promosi agar manfaat produk mudah dipahami audiens.", strategyDiagramLabel: "Alur dari kebutuhan audiens hingga rencana promosi", strategyNode1: "Kebutuhan audiens", strategyNode2: "Rancang produk", strategyNode3: "Pesan utama", strategyNode4: "Rencana promosi",
+          strategy1Title: "Riset Kebutuhan Audiens", strategy1Desc: "Mengkaji niche, keahlian kreator, dan masalah audiens untuk menemukan peluang produk.", strategy2Title: "Rancang Struktur Produk", strategy2Desc: "Menentukan format, materi, dan susunan produk berdasarkan kebutuhan audiens dan tujuan kreator.", strategy3Title: "Rencana Konten & Pesan", strategy3Desc: "Menyusun ide konten dan cara menjelaskan manfaat produk dengan bahasa yang relevan.", strategy4Title: "Materi Penjualan & Peluncuran", strategy4Desc: "Menyiapkan teks penawaran dan urutan promosi. Pelaksanaan kampanye, iklan berbayar, dan pengelolaan kanal hanya termasuk jika disepakati dalam ruang lingkup proyek.", strategyConclusion: "Kebutuhan audiens → produk yang sesuai → pesan yang jelas → rencana promosi.",
+          scopeNote: "Format file—seperti Canva yang dapat diedit, PDF, spreadsheet, atau dokumen cetak—dipilih sesuai kebutuhan dan ruang lingkup yang disepakati. Tidak semua format berlaku untuk setiap proyek. Fokus kami pada produk berbasis dokumen, spreadsheet, dan platform umum; bukan pengembangan software khusus.",
+          howLabel: "CARA KAMI BEKERJA", howHeading1: "Dari kebutuhan audiens", howHeading2: "ke produk dan rencana peluncuran.", howDescription: "Empat tahap berikut menunjukkan bagaimana peluang dinilai, produk disusun, dan materi pemasaran dipersiapkan.", processLabel: "EMPAT TAHAP KERJA",
+          stage1Index: "TAHAP 01 / PAHAMI", stage1Title: "Pahami Audiens", stage1Desc: "Kami meninjau niche, keahlian kreator, dan masalah yang dihadapi audiens.", stage2Index: "TAHAP 02 / RANCANG", stage2Title: "Rancang Produk Digital", stage2Desc: "Kami menentukan format, materi, dan struktur produk berdasarkan tujuan yang disepakati.", stage3Index: "TAHAP 03 / RENCANAKAN", stage3Title: "Susun Strategi Pemasaran", stage3Desc: "Kami merencanakan positioning, pesan utama, konten, dan urutan promosi.", stage4Index: "TAHAP 04 / SIAPKAN", stage4Title: "Siapkan Materi Peluncuran", stage4Desc: "Kami menyiapkan aset dan rencana untuk memperkenalkan produk. Eksekusi promosi, iklan, atau layanan pelanggan hanya termasuk jika disepakati.",
+          processNoteLabel: "CATATAN KOLABORASI", processNote: "Peran dan tanggung jawab disepakati untuk setiap kemitraan. Pengelolaan semua kanal, iklan berbayar, layanan pelanggan, atau seluruh aktivitas peluncuran tidak otomatis termasuk dalam setiap proyek.",
+          collabLabel: "PRINSIP KOLABORASI", collabHeading: "Sepakati ruang lingkup sebelum mulai.", collabCopy: "Sebelum proyek dimulai, kita sepakati jenis produk, hasil kerja, jadwal, tanggung jawab, dan cara berkolaborasi.",
+          principle1Title: "LINGKUP JELAS", principle1Desc: "Hasil kerja dan batas proyek disepakati", principle2Title: "TUJUAN BERSAMA", principle2Desc: "Arah produk ditetapkan bersama", principle3Title: "PROSES TERBUKA", principle3Desc: "Peran dan perkembangan dikomunikasikan",
+          ctaEyebrow: "LANGKAH SELANJUTNYA / KOLABORASI", ctaHeading1: "Ingin mengubah keahlianmu", ctaHeading2: "menjadi produk digital?", ctaCopy: "Mari bahas produk yang ingin kamu buat, siapa audiensnya, dan bantuan yang dibutuhkan.", ctaPrimary: "Mulai Kolaborasi", ctaSecondary: "Kembali ke Atas",
+          footerStatement: "Kami bekerja di balik layar untuk membantu kreator mengembangkan produk digital.", footerTop: "Kembali ke Atas",
+          whatsappMessage: "Halo Nuvora! Saya tertarik mendiskusikan peluang kolaborasi produk digital. Saya ingin mengetahui lebih lanjut tentang layanan dan proses kerja Nuvora."
+        },
+        en: {
+          metaTitle: "Nuvora.offstage — Digital Products & Marketing Strategy", metaDescription: "Nuvora helps creators turn expertise into digital products and prepare a clear marketing strategy.",
+          skip: "Skip to content", logoHome: "Nuvora.offstage — back to top", navPrimary: "Primary navigation", navMobile: "Mobile navigation", languageGroup: "Choose language", footerNavLabel: "Footer navigation",
+          navWhat: "What We Do", navWhatShort: "What We Do", navHow: "How We Work", navHowShort: "How We Work", navCta: "Let's Collaborate",
+          themeLight: "Light", themeDark: "Dark", themeToDark: "Switch to dark mode", themeToLight: "Switch to light mode", menuOpen: "Open navigation", menuClose: "Close navigation",
+          heroEyebrow: "NUVORA.OFFSTAGE · DIGITAL PRODUCT PARTNER", heroLine1: "Turn your expertise", heroLine2: "into a digital product.",
+          heroSupport: "Nuvora helps creators turn their expertise into digital products and prepare a clear marketing strategy.",
+          heroExplore: "Explore Services", heroProcess: "How We Work", brandMessage1: "You build the audience.", brandMessage2: "We help create a product they can buy.",
+          artTopLeft: "FROM EXPERTISE TO PRODUCT", artSourceLabel: "CREATOR EXPERTISE", artSourceTitle: "Knowledge and experience.", artProductLabel: "DIGITAL PRODUCT EXAMPLE", artCardOverline: "SAMPLE CONTENT OUTLINE", artCardTitle: "Creator Workflow Guide", artCardSubtitle: "Sample content: turning expertise into practical steps.", artTask1: "Understand the audience", artTask2: "Outline the content", artTask3: "Plan the steps", heroFigureCaption: "Illustrative example · not client work", heroFigureIndex: "EXPERTISE → PRODUCT → PROMOTION",
+          whatLabel: "WHAT WE DO", whatHeading1: "Build digital products.", whatHeading2: "Plan the marketing.", whatDescription: "We help choose a product format, shape its content, and plan how to introduce it to the audience.",
+          productGroupLabel: "GROUP 01", productGroupTitle: "Digital Product Development", productGroupIntro: "E-books, planners, templates, trackers, and guides shaped around audience needs.", productServicesLabel: "Digital product development services",
+          mockupCaption: "LAYOUT EXAMPLES · ILLUSTRATIVE", mockBookLabel: "E-BOOK / CONTENTS", mockBookTitle: "Creator Workflow Guide", mockBookNote: "A sample e-book with clear, structured steps.", mockBookItem1: "Start here", mockBookItem2: "Set a direction", mockBookItem3: "Plan the steps", mockPlannerLabel: "PLANNER / WEEKLY", mockPlannerTitle: "This week's focus", mockPlannerItem1: "Audience research", mockPlannerItem2: "Write ideas", mockPlannerItem3: "Review progress", mockSheetLabel: "TRACKER / MONTHLY", mockSheetTitle: "Content goals", mockSheetNote: "Plan. Record. Review.",
+          product1Title: "Interactive E-books", product1Desc: "E-books with clickable navigation, internal links, and structured content that is easy to use.", product2Title: "Digital Planners", product2Desc: "Planners for organizing goals, routines, habits, schedules, and productivity.", product3Title: "Spreadsheets & Trackers", product3Desc: "Templates for tracking budgets, expenses, savings, and personal goals.", product4Title: "Worksheets & Workbooks", product4Desc: "Practical sheets for exercises, reflection, planning, and applying new knowledge.", product5Title: "Templates & Digital Toolkits", product5Desc: "Templates for content planning, idea management, research, and creator workflows.", product6Title: "Digital Guides & Resource Kits", product6Desc: "Concise guides, checklists, curated resources, and toolkits for specific needs.", product7Title: "Presentations & Media Kits", product7Desc: "Educational presentations, media kits, pitch decks, and professional visual materials.", product8Title: "Printables & Digital Worksheets", product8Desc: "Printable planners, checklists, activity sheets, and materials ready to use or print.",
+          strategyGroupLabel: "GROUP 02", strategyGroupTitle: "Marketing Strategy", strategyGroupIntro: "We plan the messaging, content, and promotion so the audience can understand the product’s value.", strategyDiagramLabel: "Steps from audience need to a promotion plan", strategyNode1: "Audience need", strategyNode2: "Product design", strategyNode3: "Key message", strategyNode4: "Promotion plan",
+          strategy1Title: "Research Audience Needs", strategy1Desc: "Review the creator’s niche and expertise, and the audience’s problems, to identify product opportunities.", strategy2Title: "Shape the Product", strategy2Desc: "Define the format, content, and structure around audience needs and the creator’s objectives.", strategy3Title: "Content & Messaging Plan", strategy3Desc: "Plan content ideas and explain the product’s value in language that resonates with the audience.", strategy4Title: "Sales & Launch Materials", strategy4Desc: "Prepare offer copy and a promotion sequence. Campaign execution, paid ads, and channel management are included only if agreed in the project scope.", strategyConclusion: "Audience need → a relevant product → clear messaging → a promotion plan.",
+          scopeNote: "File formats—such as editable Canva, PDF, spreadsheet, or print-ready documents—are selected for the agreed scope. Not every format suits every project. Our focus is on documents, spreadsheets, and common creator platforms—not custom software development.",
+          howLabel: "HOW WE WORK", howHeading1: "From audience needs", howHeading2: "to a product and a launch plan.", howDescription: "These four stages show how we assess an opportunity, shape a product, and prepare its marketing materials.", processLabel: "FOUR WORKING STAGES",
+          stage1Index: "STAGE 01 / UNDERSTAND", stage1Title: "Understand the Audience", stage1Desc: "We review the creator’s niche and expertise, and the problems the audience faces.", stage2Index: "STAGE 02 / DESIGN", stage2Title: "Shape the Digital Product", stage2Desc: "We define the format, content, and structure around the agreed objectives.", stage3Index: "STAGE 03 / PLAN", stage3Title: "Plan the Marketing Strategy", stage3Desc: "We plan the positioning, key message, content, and promotion sequence.", stage4Index: "STAGE 04 / PREPARE", stage4Title: "Prepare Launch Materials", stage4Desc: "We prepare materials and a plan to introduce the product. Promotion execution, advertising, or customer support are included only if agreed.",
+          processNoteLabel: "COLLABORATION NOTE", processNote: "Roles and responsibilities are agreed for each partnership. Managing every channel, paid advertising, customer service, or every launch activity is not automatically included in each project.",
+          collabLabel: "COLLABORATION PRINCIPLES", collabHeading: "Agree on the scope before work begins.", collabCopy: "Before the project starts, we agree on the product type, deliverables, timeline, responsibilities, and ways of working.",
+          principle1Title: "CLEAR SCOPE", principle1Desc: "Agree on deliverables and project boundaries", principle2Title: "SHARED GOALS", principle2Desc: "Set the product direction together", principle3Title: "TRANSPARENT PROCESS", principle3Desc: "Keep roles and progress clear",
+          ctaEyebrow: "NEXT STEP / COLLABORATION", ctaHeading1: "Want to turn your expertise", ctaHeading2: "into a digital product?", ctaCopy: "Let’s discuss the product you want to create, who it is for, and the support you need.", ctaPrimary: "Let's Collaborate", ctaSecondary: "Back to Top",
+          footerStatement: "We work behind the scenes to help creators develop digital products.", footerTop: "Back to Top",
+          whatsappMessage: "Hi Nuvora! I'm interested in discussing a potential digital product collaboration. I'd love to learn more about Nuvora's services and working process."
+        }
+      };
+
+      const languageKey = "nuvora-offstage-services-language";
+      const themeKey = "nuvora-offstage-services-theme";
+      const readPreference = (key) => { try { return window.localStorage.getItem(key); } catch { return null; } };
+      const savePreference = (key, value) => { try { window.localStorage.setItem(key, value); } catch { /* file:// or private mode: keep the current in-memory choice */ } };
+      const state = {
+        language: readPreference(languageKey) === "en" ? "en" : "id",
+        theme: readPreference(themeKey) === "dark" ? "dark" : "light"
+      };
+      const t = (key) => copy[state.language][key] ?? key;
+      const languageButtons = [...document.querySelectorAll("[data-set-language]")];
+      const themeButton = document.querySelector("[data-theme-toggle]");
+      const themeLabel = document.querySelector("[data-theme-label]");
+      const menuButton = document.querySelector("[data-menu-toggle]");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const header = document.querySelector(".site-header");
+
+      function updateWhatsAppLinks() {
+        const message = t("whatsappMessage");
+        const url = `https://wa.me/6285196322176?text=${encodeURIComponent(message)}`;
+        document.querySelectorAll("[data-whatsapp]").forEach((link) => { link.href = url; });
+      }
+
+      function updateLanguage() {
+        document.documentElement.lang = state.language;
+        document.querySelectorAll("[data-i18n]").forEach((element) => {
+          const value = t(element.dataset.i18n);
+          if (value !== element.dataset.i18n) element.textContent = value;
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
+          element.setAttribute("aria-label", t(element.dataset.i18nAria));
+        });
+        document.querySelectorAll("[data-i18n-content]").forEach((element) => {
+          element.setAttribute("content", t(element.dataset.i18nContent));
+        });
+        languageButtons.forEach((button) => {
+          const selected = button.dataset.setLanguage === state.language;
+          button.setAttribute("aria-pressed", String(selected));
+        });
+        document.title = t("metaTitle");
+        if (themeLabel) themeLabel.textContent = t(state.theme === "light" ? "themeLight" : "themeDark");
+        if (themeButton) themeButton.setAttribute("aria-label", t(state.theme === "light" ? "themeToDark" : "themeToLight"));
+        if (menuButton) {
+          const key = menuButton.getAttribute("aria-expanded") === "true" ? "menuClose" : "menuOpen";
+          menuButton.setAttribute("aria-label", t(key));
+          const screenReaderLabel = menuButton.querySelector(".sr-only");
+          if (screenReaderLabel) screenReaderLabel.textContent = t(key);
+        }
+        updateWhatsAppLinks();
+      }
+
+      function setLanguage(language) {
+        if (!copy[language] || language === state.language) return;
+        const previousScroll = window.scrollY;
+        const previousBehavior = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = "auto";
+        state.language = language;
+        savePreference(languageKey, language);
+        updateLanguage();
+        window.scrollTo(0, previousScroll);
+        requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = previousBehavior; });
+      }
+
+      function setTheme(theme) {
+        if (theme !== "light" && theme !== "dark") return;
+        state.theme = theme;
+        document.documentElement.dataset.theme = theme;
+        savePreference(themeKey, theme);
+        if (themeButton) themeButton.setAttribute("aria-pressed", String(theme === "dark"));
+        if (themeLabel) themeLabel.textContent = t(theme === "light" ? "themeLight" : "themeDark");
+        if (themeButton) themeButton.setAttribute("aria-label", t(theme === "light" ? "themeToDark" : "themeToLight"));
+        const themeColor = document.querySelector("[data-theme-color]");
+        if (themeColor) themeColor.setAttribute("content", theme === "dark" ? "#111315" : "#F7F8FA");
+      }
+
+      function setMenu(open, returnFocus = false) {
+        if (!menuButton || !mobileMenu) return;
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label", t(open ? "menuClose" : "menuOpen"));
+        const screenReaderLabel = menuButton.querySelector(".sr-only");
+        if (screenReaderLabel) screenReaderLabel.textContent = t(open ? "menuClose" : "menuOpen");
+        mobileMenu.hidden = !open;
+        if (open) mobileMenu.querySelector("a")?.focus({ preventScroll: true });
+        else if (returnFocus) menuButton.focus({ preventScroll: true });
+      }
+
+      languageButtons.forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.setLanguage)));
+      themeButton?.addEventListener("click", () => setTheme(state.theme === "light" ? "dark" : "light"));
+      menuButton?.addEventListener("click", () => setMenu(menuButton.getAttribute("aria-expanded") !== "true"));
+      mobileMenu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") setMenu(false, true);
+      });
+      document.addEventListener("click", (event) => {
+        if (menuButton?.getAttribute("aria-expanded") === "true" && header && !header.contains(event.target)) setMenu(false);
+      });
+
+      setTheme(state.theme);
+      updateLanguage();
+
+      const motionPreference = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+      if (!motionPreference?.matches && "IntersectionObserver" in window) {
+        document.documentElement.classList.add("motion-ready");
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -5% 0px" });
+        document.querySelectorAll("[data-reveal]").forEach((element) => revealObserver.observe(element));
+      }
+
+      if ("IntersectionObserver" in window) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            document.querySelectorAll(`[data-nav-section="${entry.target.id}"]`).forEach((link) => link.setAttribute("aria-current", "location"));
+            document.querySelectorAll("[data-nav-section]").forEach((link) => {
+              if (link.getAttribute("href") !== `#${entry.target.id}`) link.removeAttribute("aria-current");
+            });
+          });
+        }, { threshold: 0.35 });
+        ["what-we-do", "how-we-work"].forEach((id) => {
+          const section = document.getElementById(id);
+          if (section) sectionObserver.observe(section);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
